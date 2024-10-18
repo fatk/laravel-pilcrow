@@ -1,0 +1,42 @@
+{
+    "name": "fatk/wp-kit",
+    "description": "A collection of WordPress utilities and helpers",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Karl Fathi",
+            "email": "karl@fatk.dev",
+            "homepage": "https://karlfathi.com"
+        }
+    ],
+    "homepage": "https://github.com/fatk/laravel-wp-kit",
+    "keywords": [
+        "Laravel",
+        "WordPress",
+        "Helper"
+    ],
+    "require": {
+        "illuminate/support": "~10"
+    },
+    "autoload": {
+        "psr-4": {
+            "Fatk\\WpKit\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Fatk\\WpKit\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Fatk\\WpKit\\WpKitServiceProvider"
+            ],
+            "aliases": {
+                "WpKit": "Fatk\\WpKit\\Facades\\WpKit",
+                "PostType": "Fatk\\WpKit\\Facades\\PostType"
+            }
+        }
+    }
+}
