@@ -134,7 +134,7 @@ class Post
         }
         $this->data->put('post_name', $this->path->segment()->last());
         $this->data->put('post_type', $this->type);
-        $this->data->put('post_parent', $this->parent?->ID ?? 0);
+        $this->data->put('post_parent', ($this->findParent())?->ID ?? 0);
     }
 
     /**
