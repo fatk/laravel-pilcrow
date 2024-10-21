@@ -3,7 +3,7 @@
 namespace Fatk\WpKit\Helpers;
 
 use WP_Post;
-use WP_Error;
+use RuntimeException;
 use Illuminate\Support\Collection;
 
 /**
@@ -82,6 +82,53 @@ class Post
     }
 
     /**
+     * Set metadata for the post from a Collection.
+     *
+     * @param Collection $metadata Metadata collection
+     * @return self
+     */
+    public function setMetadata(Collection $metadata): self
+    {
+        $existingMeta = collect($this->data->get('meta_input', []));
+        $mergedMeta = $existingMeta->merge($metadata);
+
+        $this->data->put('meta_input', $mergedMeta->toArray());
+
+        return $this;
+    }
+
+    /**
+     * Set SEO data for the post.
+     *
+     * @param string $title SEO title
+     * @param string $description SEO description
+     * @return self
+     * @throws RuntimeException If no supported SEO plugin is found
+     */
+    public function setSeo(string $title, string $description, ?string $focusKeyword = null): self
+    {
+        $seoData = match (true) {
+            defined('RANK_MATH_VERSION') => collect([
+                'rank_math_title' => $title,
+                'rank_math_description' => $description,
+                'rank_math_focus_keyword' => $focusKeyword,
+            ])->filter(),
+
+            defined('WPSEO_VERSION') => collect([
+                '_yoast_wpseo_title' => $title,
+                '_yoast_wpseo_metadesc' => $description,
+                '_yoast_wpseo_focuskw' => $focusKeyword,
+            ])->filter(),
+
+            default => throw new RuntimeException('No supported SEO plugin found'),
+        };
+
+        return $this->setMetadata($seoData);
+
+        return $this;
+    }
+
+    /**
      * Creates or Updates the post
      *
      * @return int Save status
@@ -144,7 +191,28 @@ class Post
      */
     protected function hasChangedData(): bool
     {
-        return $this->data->contains(fn($value, $key) => $this->post->$key !== $value);
+        return $this->data->except('meta_input')->contains(fn($value, $key) => $this->post->$key !== $value)
+            || $this->hasChangedMetadata();
+    }
+
+    /**
+     * Check if the post metadata has changed.
+     *
+     * @return bool
+     */
+    protected function hasChangedMetadata(): bool
+    {
+        if (!$this->data->has('meta_input') || !$this->post) {
+            return false;
+        }
+
+        $newMetadata = collect($this->data->get('meta_input', []));
+        $currentMetadata = collect(get_post_meta($this->post->ID))
+            ->map(fn($value) => $value[0] ?? null);
+
+        $x = $newMetadata->diffAssoc($currentMetadata)->isNotEmpty();
+
+        return $newMetadata->diffAssoc($currentMetadata)->isNotEmpty();
     }
 
     /**
