@@ -1,13 +1,13 @@
 <?php
 
-namespace Fatk\WpKit;
+namespace Fatk\Pilcrow;
 
-use Fatk\WpKit\Helpers\PostType;
-use Fatk\WpKit\Helpers\Post;
+use Fatk\Pilcrow\Helpers\PostType;
+use Fatk\Pilcrow\Helpers\Post;
 
 use Illuminate\Support\ServiceProvider;
 
-class WpKitServiceProvider extends ServiceProvider
+class PilcrowServiceProvider extends ServiceProvider
 {
     /**
      * Perform post-registration booting of services.
@@ -29,11 +29,11 @@ class WpKitServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/wp-kit.php', 'wp-kit');
+        $this->mergeConfigFrom(__DIR__ . '/../config/pilcrow.php', 'pilcrow');
 
         // Register the service the package provides.
-        $this->app->singleton('wp-kit', function ($app) {
-            return new WpKit;
+        $this->app->singleton('pilcrow', function ($app) {
+            return new Pilcrow;
         });
 
         $this->app->singleton(PostType::class, function ($app) {
@@ -49,7 +49,7 @@ class WpKitServiceProvider extends ServiceProvider
     public function provides()
     {
         return [
-            'wp-kit',
+            'pilcrow',
             PostType::class
         ];
     }
@@ -63,8 +63,8 @@ class WpKitServiceProvider extends ServiceProvider
     {
         // Publishing the configuration file.
         $this->publishes([
-            __DIR__ . '/../config/wp-kit.php' => config_path('wp-kit.php'),
-        ], 'wp-kit.config');
+            __DIR__ . '/../config/pilcrow.php' => config_path('pilcrow.php'),
+        ], 'pilcrow.config');
 
 
         // Registering package commands.

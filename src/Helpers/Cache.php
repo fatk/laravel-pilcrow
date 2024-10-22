@@ -1,6 +1,6 @@
 <?php
 
-namespace Fatk\WpKit\Helpers;
+namespace Fatk\Pilcrow\Helpers;
 
 use Illuminate\Support\Collection;
 

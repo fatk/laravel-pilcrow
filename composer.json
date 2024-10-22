@@ -1,42 +1,43 @@
 {
-    "name": "fatk/wp-kit",
-    "description": "A collection of WordPress utilities and helpers",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Karl Fathi",
-            "email": "karl@fatk.dev",
-            "homepage": "https://karlfathi.com"
-        }
-    ],
-    "homepage": "https://github.com/fatk/laravel-wp-kit",
-    "keywords": [
-        "Laravel",
-        "WordPress",
-        "Helper"
-    ],
-    "require": {
-        "illuminate/support": "~10"
-    },
-    "autoload": {
-        "psr-4": {
-            "Fatk\\WpKit\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Fatk\\WpKit\\Tests\\": "tests"
-        }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Fatk\\WpKit\\WpKitServiceProvider"
-            ],
-            "aliases": {
-                "WpKit": "Fatk\\WpKit\\Facades\\WpKit",
-                "PostType": "Fatk\\WpKit\\Facades\\PostType"
-            }
-        }
+  "name": "fatk/pilcrow",
+  "description": "A collection of WordPress utilities and helpers",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Karl Fathi",
+      "email": "karl@fatk.dev",
+      "homepage": "https://karlfathi.com"
     }
+  ],
+  "homepage": "https://github.com/fatk/laravel-pilcrow",
+  "keywords": [
+    "Laravel",
+    "WordPress",
+    "Helper",
+    "Import"
+  ],
+  "require": {
+    "illuminate/support": "~10"
+  },
+  "autoload": {
+    "psr-4": {
+      "Fatk\\Pilcrow\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Fatk\\Pilcrow\\Tests\\": "tests"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Fatk\\Pilcrow\\PilcrowServiceProvider"
+      ],
+      "aliases": {
+        "Pilcrow": "Fatk\\Pilcrow\\Facades\\Pilcrow",
+        "PostType": "Fatk\\Pilcrow\\Facades\\PostType"
+      }
+    }
+  }
 }

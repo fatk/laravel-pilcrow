@@ -1,6 +1,6 @@
 <?php
 
-namespace Fatk\WpKit\Facades;
+namespace Fatk\Pilcrow\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
@@ -16,6 +16,6 @@ class PostType extends Facade
      */
     protected static function getFacadeAccessor(): string
     {
-        return \Fatk\WpKit\Helpers\PostType::class;
+        return \Fatk\Pilcrow\Helpers\PostType::class;
     }
 }

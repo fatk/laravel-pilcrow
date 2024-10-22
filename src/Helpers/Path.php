@@ -1,10 +1,10 @@
 <?php
 
-namespace Fatk\WpKit\Helpers;
+namespace Fatk\Pilcrow\Helpers;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Fatk\WpKit\Facades\PostType;
+use Fatk\Pilcrow\Facades\PostType;
 use InvalidArgumentException;
 
 /**

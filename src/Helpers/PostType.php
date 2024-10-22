@@ -1,9 +1,9 @@
 <?php
 
-namespace Fatk\WpKit\Helpers;
+namespace Fatk\Pilcrow\Helpers;
 
 use Illuminate\Support\Collection;
-use Fatk\WpKit\Helpers\Cache;
+use Fatk\Pilcrow\Helpers\Cache;
 
 class PostType
 {

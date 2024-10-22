@@ -1,10 +1,10 @@
 <?php
 
-namespace Fatk\WpKit\Facades;
+namespace Fatk\Pilcrow\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class WpKit extends Facade
+class Pilcrow extends Facade
 {
     /**
      * Get the registered name of the component.
@@ -13,6 +13,6 @@ class WpKit extends Facade
      */
     protected static function getFacadeAccessor(): string
     {
-        return 'wp-kit';
+        return 'pilcrow';
     }
 }

@@ -3,12 +3,12 @@
 ## Installation
 
 ```bash
-composer require fatk/wp-kit
+composer require fatk/pilcrow
 ```
 
 ## Usage
 
-The WpKit library provides several helper classes to simplify working with WordPress posts, caching, paths, and post types. Highly experimental, use at your own risks.
+The Pilcrow library provides several helper classes to simplify working with WordPress posts, caching, paths, and post types. Highly experimental, use at your own risks.
 
 Here's how to use each class:
 
@@ -17,7 +17,7 @@ Here's how to use each class:
 The `Post` class manages WordPress post operations with caching and path-based lookups.
 
 ```php
-use Fatk\WpKit\Helpers\Post;
+use Fatk\Pilcrow\Helpers\Post;
 
 // Create a new Post instance
 $post = new Post('/sample-parent/sample-page', 'page');
@@ -44,7 +44,7 @@ $saveStatus = $post->save();
 The `Path` class handles operations on URL paths, including parsing and segmenting.
 
 ```php
-use Fatk\WpKit\Helpers\Path;
+use Fatk\Pilcrow\Helpers\Path;
 
 // Create a Path instance
 $path = new Path('/post-type-prefix/sample-page/child-page');
@@ -64,7 +64,7 @@ $pathWithoutPrefix = $path->removePostTypePrefix('post-type');
 The `PostType` class helps retrieve information about post types, such as their rewrite slugs.
 
 ```php
-use Fatk\WpKit\Helpers\PostType;
+use Fatk\Pilcrow\Helpers\PostType;
 
 $postType = new PostType();
 

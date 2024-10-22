@@ -1,6 +1,6 @@
 <?php
 
-namespace Fatk\WpKit\Helpers;
+namespace Fatk\Pilcrow\Helpers;
 
 use WP_Post;
 use RuntimeException;
@@ -11,7 +11,7 @@ use Illuminate\Support\Collection;
  *
  * Manages WordPress post operations with caching and path-based lookups.
  *
- * @package Fatk\WpKit\Helpers
+ * @package Fatk\Pilcrow\Helpers
  */
 class Post
 {
@@ -26,23 +26,36 @@ class Post
         'SAVE_NOOP'    => 4,
     ];
 
-    /** @var Cache $cache Static cache instance */
+    /**
+     * @var Cache
+     */
     protected static Cache $cache;
 
-    /** @var Path $path Path instance */
+    /**
+     * @var Path
+     */
     protected Path $path;
 
-    /** @var string $type Post type */
+    /**
+     * @var string
+     */
     protected string $type;
 
-    /** @var WP_Post|null $post Current post */
+    /**
+     * @var WP_Post|null
+     */
     protected ?WP_Post $post = null;
 
-    /** @var WP_Post|null $parent Parent post */
+    /**
+     * @var WP_Post|null
+     */
     protected ?WP_Post $parent = null;
 
-    /** @var Collection $data Post data */
+    /**
+     * @var Collection
+     */
     protected Collection $data;
+
 
     /**
      * Post constructor.
