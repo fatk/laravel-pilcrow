@@ -2,9 +2,6 @@
 
 namespace Fatk\Pilcrow;
 
-use Fatk\Pilcrow\Helpers\PostType;
-use Fatk\Pilcrow\Helpers\Post;
-
 use Illuminate\Support\ServiceProvider;
 
 class PilcrowServiceProvider extends ServiceProvider
@@ -35,10 +32,6 @@ class PilcrowServiceProvider extends ServiceProvider
         $this->app->singleton('pilcrow', function ($app) {
             return new Pilcrow;
         });
-
-        $this->app->singleton(PostType::class, function ($app) {
-            return new PostType();
-        });
     }
 
     /**
@@ -49,8 +42,7 @@ class PilcrowServiceProvider extends ServiceProvider
     public function provides()
     {
         return [
-            'pilcrow',
-            PostType::class
+            'pilcrow'
         ];
     }
 

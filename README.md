@@ -1,4 +1,4 @@
-# Wp Kit
+# Pilcrow
 
 ## Installation
 
