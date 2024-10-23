@@ -4,7 +4,6 @@ namespace Fatk\Pilcrow\Helpers;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Fatk\Pilcrow\Facades\PostType;
 use InvalidArgumentException;
 
 /**
@@ -97,7 +96,7 @@ class Path
      */
     public function removePostTypePrefix(string $type): string
     {
-        $prefix = PostType::getPrefix($type);
+        $prefix = (new PostType($type))?->getPrefix();
 
         return $this->segment()
             ->reject(fn($segment) => $segment === $prefix)

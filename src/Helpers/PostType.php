@@ -12,23 +12,27 @@ class PostType
      *
      * @var Collection
      */
-    protected Cache $cache;
+    protected static Cache $cache;
 
+    /**
+     * @var string
+     */
+    protected string $type;
 
-    public function __construct()
+    public function __construct(string $type)
     {
-        $this->cache = new Cache();
+        self::$cache ??= new Cache();
+        $this->type = $type;
     }
 
     /**
      * Retrieve the rewrite slug for the given post type.
      *
-     * @param string $type The post type to retrieve the slug for.
      * @return string|null The rewrite slug or null if not found.
      */
-    public function getPrefix(string $type): ?string
+    public function getPrefix(): ?string
     {
         // Fetch rewrite slug from post type object and cache it
-        return $this->cache->resolve($type, fn() => get_post_type_object($type)?->rewrite['slug'] ?? null);
+        return self::$cache->resolve($this->type, fn() => get_post_type_object($this->type)?->rewrite['slug'] ?? null);
     }
 }

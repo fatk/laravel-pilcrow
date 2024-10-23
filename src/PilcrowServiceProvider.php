@@ -3,6 +3,9 @@
 namespace Fatk\Pilcrow;
 
 use Illuminate\Support\ServiceProvider;
+use Fatk\Pilcrow\Console\ImportCommand;
+use Fatk\Pilcrow\Importers\{PostImporter, UserImporter, AttachmentImporter};
+use Fatk\Pilcrow\SourceAdapters\{ExcelAdapter, ContentAdapter};
 
 class PilcrowServiceProvider extends ServiceProvider
 {
@@ -27,6 +30,9 @@ class PilcrowServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/pilcrow.php', 'pilcrow');
+
+        $this->registerImporters();
+        $this->registerSourceAdapters();
 
         // Register the service the package provides.
         $this->app->singleton('pilcrow', function ($app) {
@@ -60,6 +66,29 @@ class PilcrowServiceProvider extends ServiceProvider
 
 
         // Registering package commands.
-        // $this->commands([]);
+        $this->commands([
+            ImportCommand::class
+        ]);
+    }
+
+    private function registerImporters(): void
+    {
+        $this->app->singleton('pilcrow.import.importers', function () {
+            return [
+                'post' => PostImporter::class,
+                'user' => UserImporter::class,
+                'attachment' => AttachmentImporter::class,
+            ];
+        });
+    }
+
+    private function registerSourceAdapters(): void
+    {
+        $this->app->singleton('pilcrow.import.sources', function () {
+            return [
+                'excel' => ExcelAdapter::class,
+                'content' => ContentAdapter::class,
+            ];
+        });
     }
 }
