@@ -25,12 +25,13 @@ wp acorn pilcrow:import {type} --source={source}
 
 ### Options
 
-- `--source`: Source adapter to use (Required)
+- `--source or -s`: Source adapter to use (Required)
   - `excel`: Import from Excel files (supports .xlsx, .xls, .csv)
   - `content`: Import from content files (supports .txt, .md, .json)
-- `--path`: Override the default source path
-- `--file` or `-f`: Filter files by name or pattern
+- `--path or -p`: Override the default source path
+- `--file or -f` or `-f`: Filter files by name or pattern
 - `--interactive` or `-i`: Select files interactively
+- `--verbose or -v`: Output a detailed log of operations
 
 ### Default Paths
 
