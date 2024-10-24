@@ -85,7 +85,7 @@ Your Excel file should contain the following columns:
 
 Your Excel file should follow this structure:
 
-| Post Title     | Path           | Page Template  | Post Type | Post Status | Post Author | Post Excerpt   | Post Content   | Post Date | Post Category | Tags Input       | SEO Title      | SEO Description       | SEO Keyword        |
+| Post Title     | Path           | Template  | Post Type | Post Status | Post Author | Post Excerpt   | Post Content   | Post Date | Post Category | Tags Input       | SEO Title      | SEO Description       | SEO Keyword        |
 |----------------|----------------|----------------|-----------|-------------|-------------|----------------|----------------|-----------|---------------|------------------|----------------|-----------------------|--------------------|
 | About Us       | /about-us      | template-name  | page      | publish     | admin       | Page excerpt   | Page content   | 2024-10-23 | Category 1 | tag1, tag2        | SEO page title | SEO page description  | keyword1, keyword2 |
 | Blog Post 1    | /blog/post-1   |                | post      | draft       | editor      | Post excerpt   | Post content   | 2024-10-20 | Category 2 | tag3, tag4        | SEO post title | SEO post description  | keyword3, keyword4 |
@@ -100,10 +100,10 @@ Your Excel file should follow this structure:
 - **`Path`**: URL path for the post/page/custom post type (with or without domain).
   - Example: `/about-us`, `/blog/post-title`
 
-- **`Page Template`**: Template to be used for the page.
-  - Use the template filename without the extension.
+- **`Template`**: Template to be used.
+  - Use the template name.
   - Leave empty for the default template.
-  - Example: `template-name`
+  - Example: `Home`
 
 - **`Post Type`**: The type of content to create.
   - `page`: WordPress page
