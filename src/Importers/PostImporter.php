@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Fatk\Pilcrow\Importers;
 
 use Fatk\Pilcrow\Contracts\ImportTypeInterface;
+use Fatk\Pilcrow\Helpers\Post;
+use Illuminate\Support\Collection;
 
 /**
  * Handles the import of WordPress posts
@@ -30,8 +32,8 @@ final class PostImporter implements ImportTypeInterface
      *
      * @inheritDoc
      */
-    public function import(array $data): bool
+    public function import(Collection $data): Collection
     {
-        return true;
+        return collect([]);
     }
 }

@@ -44,8 +44,6 @@ final class ImportCommand extends Command
     }
 
     /**
-     * Execute the console command
-     *
      * @return int Command exit code
      */
     public function handle(): int
@@ -73,7 +71,19 @@ final class ImportCommand extends Command
             $this->info("Starting import of type '{$type}' from '{$source}' source");
             $this->newLine();
 
-            // $result = $adapter->import($files);
+            $log = $adapter->import($files);
+
+            $this->newLine();
+            $this->info('Import Summary:');
+            $summary = $log->getSummary();
+            $this->table($summary['headers'], $summary['rows'], 'box');
+
+            if ($this->option('verbose')) {
+                $this->newLine();
+                $this->info('Detailed Import Log:');
+                $detailed = $log->getDetails();
+                $this->table($detailed['headers'], $detailed['rows'], 'box');
+            }
 
             $this->newLine();
             $this->info('Import completed successfully');

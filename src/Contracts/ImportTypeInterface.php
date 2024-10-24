@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Fatk\Pilcrow\Contracts;
 
+use Illuminate\Support\Collection;
+
 /**
  * Contract for WordPress content type importers
  *
@@ -21,10 +23,10 @@ interface ImportTypeInterface
      * entities. The structure of the input data will depend on the
      * source adapter being used.
      *
-     * @param array<mixed> $data Processed data from the source adapter
-     * @return bool True if import was successful, false otherwise
+     * @param Collection<mixed> $data Processed data from the source adapter
+     * @return Collection True if import was successful, false otherwise
      *
      * @throws \RuntimeException If the import process fails
      */
-    public function import(array $data): bool;
+    public function import(Collection $data): Collection;
 }
