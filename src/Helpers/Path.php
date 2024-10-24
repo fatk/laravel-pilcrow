@@ -82,7 +82,7 @@ class Path
     public function segment(): Collection
     {
         if ($this->segments === null) {
-            $this->segments = collect(explode('/', $this->path));
+            $this->segments = $this->path === '/' ? collect(['/']) : collect(explode('/', $this->path))->filter();
         }
 
         return $this->segments;
@@ -98,7 +98,7 @@ class Path
     {
         $prefix = (new PostType($type))?->getPrefix();
 
-        return $this->segment()
+        return $this->path === '/' ? '/' : $this->segment()
             ->reject(fn($segment) => $segment === $prefix)
             ->join('/');
     }
