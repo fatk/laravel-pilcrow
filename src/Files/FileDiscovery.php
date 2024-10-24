@@ -51,11 +51,15 @@ final class FileDiscovery
         $this->finder->files()->in($path);
 
         if ($pattern) {
-            $this->finder->name($pattern);
-        }
+            if (!str_contains($pattern, '.')) {
+                $pattern .= '.{' . implode(',', $supportedExtensions) . '}';
+            }
 
-        $extensionPattern = sprintf('/\.(%s)$/i', implode('|', $supportedExtensions));
-        $this->finder->name($extensionPattern);
+            $this->finder->name($pattern);
+        } else {
+            $extensionPattern = '*.{' . implode(',', $supportedExtensions) . '}';
+            $this->finder->name($extensionPattern);
+        }
 
         return collect($this->finder)
             ->map(fn($file) => [
