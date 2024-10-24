@@ -88,7 +88,7 @@ final class ImportLog
                             return $this->formatStatus($value);
                         }
 
-                        return $value;
+                        return (string)$value;
                     })
                     ->all();
             })
