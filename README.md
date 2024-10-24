@@ -73,59 +73,83 @@ wp acorn pilcrow:import post --source=content --path=/custom/path/to/files
 
 ### File Format Examples
 
-#### Excel Import (posts)
+Here’s the updated `README.md` with the new Excel column structure:
 
-Your Excel file should have these columns:
+---
 
-#### Excel Import Format
+### Excel Import (posts)
+
+Your Excel file should contain the following columns:
+
+### Excel Import Format
 
 Your Excel file should follow this structure:
 
-| Path            | Template      | Type     | Status  | Author  | Excerpt        | SEO Title      | SEO Description       | SEO Keyword        |
-|----------------|---------------|----------|---------|---------|----------------|----------------|---------------------|-------------------|
-| /about-us      | template-name | page     | publish | admin   | Page excerpt   | SEO page title | SEO page description | keyword1, keyword2 |
-| /blog/post-1   |       | post     | draft   | editor  | Post excerpt   | SEO post title | SEO post description | keyword3, keyword4 |
+| Post Title     | Path           | Page Template  | Post Type | Post Status | Post Author | Post Excerpt   | Post Content   | Post Date | Post Category | Tags Input       | SEO Title      | SEO Description       | SEO Keyword        |
+|----------------|----------------|----------------|-----------|-------------|-------------|----------------|----------------|-----------|---------------|------------------|----------------|-----------------------|--------------------|
+| About Us       | /about-us      | template-name  | page      | publish     | admin       | Page excerpt   | Page content   | 2024-10-23 | Category 1 | tag1, tag2        | SEO page title | SEO page description  | keyword1, keyword2 |
+| Blog Post 1    | /blog/post-1   |                | post      | draft       | editor      | Post excerpt   | Post content   | 2024-10-20 | Category 2 | tag3, tag4        | SEO post title | SEO post description  | keyword3, keyword4 |
 
-Column descriptions:
+---
 
-- `Path`: URL path for the post/page/custom post type (with or without domain)
-  - For pages: `/about-us`, `/contact`
-  - For posts: `/blog/post-title`, `/news/article-name`
+### **Column Descriptions**
 
-- `Template`: Page template to use
-  - Use the template filename without extension
-  - Leave empty for standard template
+- **`Post Title`**: Title of the post or page.
+  - Example: `About Us`, `Blog Post 1`
 
-- `Type`: Content type
+- **`Path`**: URL path for the post/page/custom post type (with or without domain).
+  - Example: `/about-us`, `/blog/post-title`
+
+- **`Page Template`**: Template to be used for the page.
+  - Use the template filename without the extension.
+  - Leave empty for the default template.
+  - Example: `template-name`
+
+- **`Post Type`**: The type of content to create.
   - `page`: WordPress page
   - `post`: WordPress post
-  - Can also use custom post types
+  - You can also use custom post types.
+  - Example: `page`, `post`, `product`
 
-- `Status`: Publication status
-  - `publish`: Published content
-  - `draft`: Saved as draft
+- **`Post Status`**: The status of the post or page.
+  - `publish`: Published
+  - `draft`: Saved as a draft
   - `private`: Private content
   - `pending`: Pending review
 
-- `Author`: WordPress username of the author
-  - Must be an existing user
-  - Defaults to current user if not found
+- **`Post Author`**: The WordPress username of the author.
+  - Must be an existing user.
+  - Defaults to the current user if the username is not found.
+  - Example: `admin`, `editor`
 
-- `Excerpt`: Short description of the content
-  - Used in search results and summaries
-  - Optional field
+- **`Post Excerpt`**: A short summary of the content.
+  - Used in summaries and search results.
+  - Optional field.
 
-- `SEO Title`: Custom title for SEO purposes
-  - Used in meta tags
-  - Optional field
+- **`Post Content`**: The main content of the post or page.
 
-- `SEO Description`: Meta description for search engines
-  - Should be concise and descriptive
-  - Optional field
+- **`Post Date`**: The publication date of the post or page.
+  - Format: `YYYY-MM-DD`
+  - Example: `2024-10-23`
 
-- `SEO Keyword`: Keywords for SEO
-  - Comma-separated list
-  - Optional field
+- **`Post Category`**: The category for the post.
+  - If multiple, use a comma-separated list.
+  - Example: `Category 1, Category 2`
+
+- **`Tags Input`**: Tags associated with the post.
+  - Use a comma-separated list of tags.
+  - Example: `tag1, tag2`
+
+- **`SEO Title`**: Custom title for SEO purposes.
+  - This will appear in the `<title>` tag of the page.
+
+- **`SEO Description`**: A meta description for search engines.
+  - Should be concise and descriptive.
+
+- **`SEO Keyword`**: Keywords for SEO.
+  - Use a comma-separated list.
+  - Example: `keyword1, keyword2`
+
 
 Example import command:
 ```bash
