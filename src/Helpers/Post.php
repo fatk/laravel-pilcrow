@@ -166,7 +166,7 @@ class Post
         $this->post = get_post($post_id);
 
         if (!$this->data->has('ID')) {
-            self::$cache->put($this->path->get(), $this->post);
+            self::$cache->put("{$this->type}:{$this->path->get()}", $this->post);
         }
 
         return $this->data->has('ID') ? self::STATUS['SAVE_UPDATED'] : self::STATUS['SAVE_CREATED'];
@@ -191,8 +191,16 @@ class Post
     {
         if ($this->exists()) {
             $this->data->put('ID', $this->post->ID);
+
+            if (empty($this->data->get('post_content'))) {
+                $this->data = $this->data->except('post_content');
+            }
         }
-        $this->data->put('post_name', $this->path->segment()->last());
+
+        $postName = $this->path->removePostTypePrefix($this->type);
+        $postName = (new Path($postName))->segment()->last();
+
+        $this->data->put('post_name', (new Path($this->path->removePostTypePrefix($this->type)))->segment()->last());
         $this->data->put('post_type', $this->type);
         $this->data->put('post_parent', ($this->findParent())?->ID ?? 0);
     }
@@ -223,8 +231,6 @@ class Post
         $currentMetadata = collect(get_post_meta($this->post->ID))
             ->map(fn($value) => $value[0] ?? null);
 
-        $x = $newMetadata->diffAssoc($currentMetadata)->isNotEmpty();
-
         return $newMetadata->diffAssoc($currentMetadata)->isNotEmpty();
     }
 
@@ -246,7 +252,7 @@ class Post
     public function find(): ?WP_Post
     {
         return $this->post ?? self::$cache->resolve(
-            $this->path->get(),
+            "{$this->type}:{$this->path->get()}",
             fn() => $this->post = $this->findByPath($this->path)
         );
     }
@@ -263,7 +269,7 @@ class Post
         }
 
         $segments = $this->path->segment();
-        if ($segments->isEmpty()) {
+        if ($segments->isEmpty() || $segments->count() < 2) {
             return null;
         }
 
