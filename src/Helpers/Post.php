@@ -172,6 +172,11 @@ class Post
         return $this->data->has('ID') ? self::STATUS['SAVE_UPDATED'] : self::STATUS['SAVE_CREATED'];
     }
 
+    protected function getPostSlug(): ?string
+    {
+        return (new Path($this->path->removePostTypePrefix($this->type)))->segment()->last();
+    }
+
     /**
      * Validate if the post can be saved.
      *
@@ -197,10 +202,7 @@ class Post
             }
         }
 
-        $postName = $this->path->removePostTypePrefix($this->type);
-        $postName = (new Path($postName))->segment()->last();
-
-        $this->data->put('post_name', (new Path($this->path->removePostTypePrefix($this->type)))->segment()->last());
+        $this->data->put('post_name', $this->getPostSlug());
         $this->data->put('post_type', $this->type);
         $this->data->put('post_parent', ($this->findParent())?->ID ?? 0);
     }
@@ -212,7 +214,15 @@ class Post
      */
     protected function hasChangedData(): bool
     {
-        return $this->data->except('meta_input')->contains(fn($value, $key) => $this->post->$key !== $value)
+        $data = $this->data->except(['meta_input', 'path']);
+        $slug = $this->getPostSlug();
+
+        if ($slug !== '/') {
+            $data->put('post_name', $this->getPostSlug());
+        }
+
+
+        return $data->contains(fn($value, $key) => $this->post->$key !== $value)
             || $this->hasChangedMetadata();
     }
 
