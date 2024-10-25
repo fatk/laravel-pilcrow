@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Fatk\Pilcrow\Importers;
 
 use Fatk\Pilcrow\Contracts\ImportTypeInterface;
-use Fatk\Pilcrow\Helpers\Post;
+use Fatk\Pilcrow\Helpers\{Post, Cache};
 use Illuminate\Support\Collection;
 
 /**
@@ -13,6 +13,17 @@ use Illuminate\Support\Collection;
  */
 final class PostImporter implements ImportTypeInterface
 {
+    /**
+     * @var Cache
+     */
+    protected static Cache $templateCache;
+
+
+    public function __construct()
+    {
+        self::$templateCache ??= new Cache();
+    }
+
     /**
      * Process data and import content into WordPress
      *
@@ -57,8 +68,11 @@ final class PostImporter implements ImportTypeInterface
         }
 
         if (!blank($data->get('template'))) {
-            $post->setMetadata(collect(['_wp_page_template' => $data->get('template')]));
-            $data->forget('template');
+            $template = $this->getTemplateFile($data->get('template'), $data->get('post_type', 'post'));
+
+            if ($template !== false) {
+                $post->setMetadata(collect(['_wp_page_template' => $template]));
+            }
         }
 
         if (!blank($data->get('post_category'))) {
@@ -131,5 +145,22 @@ final class PostImporter implements ImportTypeInterface
 
         $user = get_user_by('slug', $author) ?: get_user_by('login', $author);
         return $user?->ID ? (string) $user->ID : null;
+    }
+
+    /**
+     * Resolve template file from name
+     *
+     * @param string $template
+     * @param string $postType
+     * @return string|bool
+     */
+    private function getTemplateFile(string $template, string $postType): string|bool
+    {
+        $templates = self::$templateCache->resolve(
+            $postType,
+            fn(): Collection => collect(wp_get_theme()->get_page_templates(post_type: $postType))
+        );
+
+        return $templates->search($template);
     }
 }
