@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Fatk\Pilcrow\Importers;
 
 use Fatk\Pilcrow\Contracts\ImportTypeInterface;
+use Illuminate\Support\Collection;
 
 /**
  * Handles the import of WordPress users
@@ -30,8 +31,8 @@ final class UserImporter implements ImportTypeInterface
      *
      * @inheritDoc
      */
-    public function import(array $data): bool
+    public function import(Collection $data): Collection
     {
-        return true;
+        return collect();
     }
 }
