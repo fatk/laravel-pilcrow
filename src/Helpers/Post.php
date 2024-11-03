@@ -137,8 +137,6 @@ class Post
         };
 
         return $this->setMetadata($seoData);
-
-        return $this;
     }
 
     /**
@@ -156,14 +154,14 @@ class Post
             return self::STATUS['SAVE_NOOP'];
         }
 
-        $this->preparePostData();
-        $post_id = wp_insert_post($this->data->toArray(), true);
+        $this->prepareData();
+        $postId = wp_insert_post($this->data->toArray(), true);
 
-        if (is_wp_error($post_id)) {
+        if (is_wp_error($postId)) {
             return self::STATUS['SAVE_FAILED'];
         }
 
-        $this->post = get_post($post_id);
+        $this->post = get_post($postId);
 
         if (!$this->data->has('ID')) {
             self::$cache->put("{$this->type}:{$this->path->get()}", $this->post);
@@ -172,6 +170,11 @@ class Post
         return $this->data->has('ID') ? self::STATUS['SAVE_UPDATED'] : self::STATUS['SAVE_CREATED'];
     }
 
+    /**
+     * Gets the post's slug
+     *
+     * @return string|null post's slug
+     */
     protected function getPostSlug(): ?string
     {
         return (new Path($this->path->removePostTypePrefix($this->type)))->segment()->last();
@@ -192,7 +195,7 @@ class Post
     /**
      * Prepare post data for saving.
      */
-    protected function preparePostData(): void
+    protected function prepareData(): void
     {
         if ($this->exists()) {
             $this->data->put('ID', $this->post->ID);
