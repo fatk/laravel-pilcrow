@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Fatk\Pilcrow\Helpers;
 
 use WP_User;
@@ -7,17 +9,10 @@ use RuntimeException;
 use Illuminate\Support\Collection;
 
 /**
- * Class User
- *
- * Manages WordPress user operations with caching.
- *
- * @package Fatk\Pilcrow\Helpers
+ * Manages WordPress user operations with caching
  */
 class User
 {
-    /**
-     * Status constants for save operations.
-     */
     public const STATUS = [
         'SAVE_CREATED' => 0,
         'SAVE_UPDATED' => 1,
@@ -26,31 +21,15 @@ class User
         'SAVE_NOOP'    => 4,
     ];
 
-    /**
-     * @var Cache
-     */
     protected static Cache $cache;
-
-    /**
-     * @var string
-     */
     protected string $login;
-
-    /**
-     * @var WP_User|null
-     */
     protected ?WP_User $user = null;
-
-    /**
-     * @var Collection
-     */
     protected Collection $data;
 
-
     /**
-     * User constructor.
+     * Initialize user with login name
      *
-     * @param string $login User's login
+     * @param string $login
      */
     public function __construct(string $login)
     {
@@ -60,9 +39,9 @@ class User
     }
 
     /**
-     * Set post data from a Collection.
+     * Merge new data with existing user data
      *
-     * @param Collection $data Post data
+     * @param Collection<string, mixed> $data
      * @return self
      */
     public function set(Collection $data): self
@@ -72,20 +51,20 @@ class User
     }
 
     /**
-     * Magic method to set post data.
+     * Set single user data property
      *
-     * @param string $name Property name
-     * @param mixed $value Property value
+     * @param string $name
+     * @param mixed $value
      */
-    public function __set(string $name, $value): void
+    public function __set(string $name, mixed $value): void
     {
         $this->data->put($name, $value);
     }
 
     /**
-     * Set metadata for the user from a Collection.
+     * Set user metadata values
      *
-     * @param Collection $metadata Metadata collection
+     * @param Collection<string, mixed> $metadata
      * @return self
      */
     public function setMetadata(Collection $metadata): self
@@ -99,12 +78,13 @@ class User
     }
 
     /**
-     * Set SEO data for the user.
+     * Set SEO metadata for supported plugins
      *
-     * @param string $title SEO title
-     * @param string $description SEO description
+     * @param string $title
+     * @param string $description
+     * @param string|null $focusKeyword
      * @return self
-     * @throws RuntimeException If no supported SEO plugin is found
+     * @throws RuntimeException
      */
     public function setSeo(string $title, string $description, ?string $focusKeyword = null): self
     {
@@ -128,7 +108,11 @@ class User
     }
 
     /**
-     * Sets social network profiles for the user in supported SEO plugins
+     * Set social media profile metadata
+     *
+     * @param Collection<string, string> $profiles
+     * @return self
+     * @throws RuntimeException
      */
     public function setSocialProfiles(Collection $profiles): self
     {
@@ -169,9 +153,9 @@ class User
     }
 
     /**
-     * Creates or Updates the user
+     * Create or update WordPress user
      *
-     * @return int Save status
+     * @return int
      */
     public function save(): int
     {
@@ -200,7 +184,7 @@ class User
     }
 
     /**
-     * Validate if the post can be saved.
+     * Validate required user data
      *
      * @return bool
      */
@@ -212,7 +196,7 @@ class User
     }
 
     /**
-     * Prepare user data for saving.
+     * Prepare data for WordPress user creation/update
      */
     protected function prepareData(): void
     {
@@ -226,7 +210,7 @@ class User
     }
 
     /**
-     * Check if the user data has changed.
+     * Check if user data has been modified
      *
      * @return bool
      */
@@ -240,7 +224,7 @@ class User
     }
 
     /**
-     * Check if the post metadata has changed.
+     * Check if user metadata has been modified
      *
      * @return bool
      */
@@ -258,7 +242,7 @@ class User
     }
 
     /**
-     * Check if the post exists.
+     * Check if user exists in WordPress
      *
      * @return bool
      */
@@ -268,7 +252,7 @@ class User
     }
 
     /**
-     * Find the user by login.
+     * Find WordPress user by login
      *
      * @return WP_User|null
      */
