@@ -16,7 +16,7 @@ final class PostImporter implements ImportTypeInterface
     /**
      * @var Cache
      */
-    protected static Cache $templateCache;
+    private static Cache $templateCache;
 
 
     public function __construct()
@@ -64,8 +64,9 @@ final class PostImporter implements ImportTypeInterface
                 description: $data->get('seo_description') ?? '',
                 focusKeyword: $data->get('seo_keyword') ?? ''
             );
-            $data->forget(['seo_title', 'seo_description', 'seo_keyword']);
         }
+
+        $data->forget(['seo_title', 'seo_description', 'seo_keyword']);
 
         if (!blank($data->get('template'))) {
             $template = $this->getTemplateFile($data->get('template'), $data->get('post_type', 'post'));
