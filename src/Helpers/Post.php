@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Fatk\Pilcrow\Helpers;
 
 use WP_Post;
@@ -74,7 +76,7 @@ class Post
     /**
      * Set post data from a Collection.
      *
-     * @param Collection $data Post data
+     * @param Collection<string, string> $data Post data
      * @return self
      */
     public function set(Collection $data): self
@@ -97,7 +99,7 @@ class Post
     /**
      * Set metadata for the post from a Collection.
      *
-     * @param Collection $metadata Metadata collection
+     * @param Collection<string, string> $metadata Metadata collection
      * @return self
      */
     public function setMetadata(Collection $metadata): self
