@@ -38,23 +38,25 @@ final class ImportLog
     {
         $headers = ['File', 'Total', 'Created', 'Updated', 'Skipped', 'Failed', 'No Change'];
 
-        $rows = $this->fileLogs->map(function (Collection $entries, string $filePath): array {
-            $stats = $this->calculateStats($entries);
+        if ($this->fileLogs->isNotEmpty()) {
+            $rows = $this->fileLogs->map(function (Collection $entries, string $filePath): array {
+                $stats = $this->calculateStats($entries);
 
-            return [
-                basename($filePath),
-                $stats['total'],
-                $stats[Post::STATUS['SAVE_CREATED']],
-                $stats[Post::STATUS['SAVE_UPDATED']],
-                $stats[Post::STATUS['SAVE_SKIPPED']],
-                $stats[Post::STATUS['SAVE_FAILED']],
-                $stats[Post::STATUS['SAVE_NOOP']],
-            ];
-        })->values()->all();
+                return [
+                    basename($filePath),
+                    $stats['total'],
+                    $stats[Post::STATUS['SAVE_CREATED']],
+                    $stats[Post::STATUS['SAVE_UPDATED']],
+                    $stats[Post::STATUS['SAVE_SKIPPED']],
+                    $stats[Post::STATUS['SAVE_FAILED']],
+                    $stats[Post::STATUS['SAVE_NOOP']],
+                ];
+            })->values()->all();
+        }
 
         return [
             'headers' => $headers,
-            'rows' => $rows,
+            'rows' => $rows ?? [],
         ];
     }
 
