@@ -70,7 +70,6 @@ final class ExcelAdapter implements SourceAdapterInterface
 
         $headers = collect($rows->first())
             ->map(fn($header) => Str::snake(strtolower(trim($header ?? ''))))
-            ->filter()
             ->values();
 
         return $rows->slice(1)
