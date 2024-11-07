@@ -200,7 +200,7 @@ class Post
     protected function prepareData(): void
     {
         if ($this->exists()) {
-            $this->data->put('ID', $this->post->ID);
+            $this->data->put('ID', $this->post?->ID);
 
             if (empty($this->data->get('post_content'))) {
                 $this->data = $this->data->except('post_content');
@@ -226,8 +226,7 @@ class Post
             $data->put('post_name', $this->getPostSlug());
         }
 
-
-        return $data->contains(fn($value, $key) => $this->post->$key !== $value)
+        return $data->contains(fn($value, $key) => $this->post?->$key !== $value)
             || $this->hasChangedMetadata();
     }
 
