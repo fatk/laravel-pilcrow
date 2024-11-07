@@ -32,21 +32,23 @@ final class PostImporter implements ImportTypeInterface
      */
     public function import(Collection $data): Collection
     {
-        $post = new Post(
-            path: $data->get('path'),
-            type: $data->get('post_type', 'post')
-        );
+        if (!blank($data->get('path')) && !blank($data->get('post_type'))) {
+            $post = new Post(
+                path: $data->get('path'),
+                type: $data->get('post_type', 'post')
+            );
 
-        $this->processFields($data, $post);
+            $this->processFields($data, $post);
 
-        $post->set($data->filter());
-        $status = $post->save();
+            $post->set($data->filter());
+            $status = $post->save();
+        }
 
         return collect([
-            'id' => $post->find()?->ID,
-            'path' => $data->get('path'),
-            'parent' => $post->findParent()?->ID,
-            'status' => $status
+            'id' => $post?->find()?->ID ?? 'N/A',
+            'path' => $data->get('path') ?? 'N/A',
+            'parent' => $post?->findParent()?->ID ?? 'N/A',
+            'status' => $status ?? Post::STATUS['SAVE_SKIPPED']
         ]);
     }
 
@@ -66,8 +68,6 @@ final class PostImporter implements ImportTypeInterface
             );
         }
 
-        $data->forget(['seo_title', 'seo_description', 'seo_keyword']);
-
         if (!blank($data->get('template'))) {
             $template = $this->getTemplateFile($data->get('template'), $data->get('post_type', 'post'));
 
@@ -75,6 +75,8 @@ final class PostImporter implements ImportTypeInterface
                 $post->setMetadata(collect(['_wp_page_template' => $template]));
             }
         }
+
+        $data->forget(['seo_title', 'seo_description', 'seo_keyword', 'template']);
 
         if (!blank($data->get('post_category'))) {
             $data['post_category'] = $this->resolveCategories($data->get('post_category'));
