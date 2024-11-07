@@ -5,6 +5,13 @@ namespace Fatk\Pilcrow\Helpers;
 use Illuminate\Support\Collection;
 use Fatk\Pilcrow\Helpers\Cache;
 
+/**
+ * Class PostType
+ *
+ * Handles WordPress post type operations and rewrite slug retrieval with caching.
+ *
+ * @package Fatk\Pilcrow\Helpers
+ */
 class PostType
 {
     /**
@@ -19,6 +26,9 @@ class PostType
      */
     protected string $type;
 
+    /**
+     * @param string $type The post type name
+     */
     public function __construct(string $type)
     {
         self::$cache ??= new Cache();
@@ -32,7 +42,9 @@ class PostType
      */
     public function getPrefix(): ?string
     {
-        // Fetch rewrite slug from post type object and cache it
-        return self::$cache->resolve($this->type, fn() => get_post_type_object($this->type)?->rewrite['slug'] ?? null);
+        return self::$cache->resolve(
+            $this->type,
+            fn() => get_post_type_object($this->type)?->rewrite['slug'] ?? null
+        );
     }
 }
