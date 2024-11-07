@@ -96,10 +96,38 @@ class Path
      */
     public function removePostTypePrefix(string $type): string
     {
-        $prefix = (new PostType($type))?->getPrefix();
+        return $this->removePrefix((new PostType($type))?->getPrefix());
+    }
 
-        return $this->path === '/' ? '/' : $this->segment()
-            ->reject(fn($segment) => $segment === $prefix)
-            ->join('/');
+    /**
+     * Remove the taxonomy prefix from the path, if it exists.
+     *
+     * @param string $taxonomy The taxonomy whose prefix needs to be removed
+     * @return string The path without the taxonomy prefix
+     */
+    public function removeTaxonomyPrefix(string $taxonomy): string
+    {
+        return  $this->removePrefix((new Taxonomy($taxonomy))?->getPrefix());
+    }
+
+    /**
+     * Remove prefix from the path, if it exists.
+     *
+     * @param string $prefix The prefix to be removed
+     * @return string The path without the prefix
+     */
+    protected function removePrefix(?string $prefix): string
+    {
+        if ($this->path === '/' || !$prefix) {
+            return $this->path;
+        }
+
+        $segments = $this->segment();
+
+        if ($segments->first() === $prefix) {
+            return $segments->slice(1)->join('/');
+        }
+
+        return $this->path;
     }
 }
