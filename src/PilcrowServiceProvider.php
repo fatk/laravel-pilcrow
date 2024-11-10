@@ -4,7 +4,7 @@ namespace Fatk\Pilcrow;
 
 use Illuminate\Support\ServiceProvider;
 use Fatk\Pilcrow\Console\ImportCommand;
-use Fatk\Pilcrow\Importers\{PostImporter, UserImporter, AttachmentImporter};
+use Fatk\Pilcrow\Importers\{PostImporter, UserImporter, TermImporter, AttachmentImporter};
 use Fatk\Pilcrow\SourceAdapters\{ExcelAdapter, ContentAdapter};
 
 class PilcrowServiceProvider extends ServiceProvider
@@ -77,6 +77,7 @@ class PilcrowServiceProvider extends ServiceProvider
             return [
                 'post' => PostImporter::class,
                 'user' => UserImporter::class,
+                'term' => TermImporter::class,
                 'attachment' => AttachmentImporter::class,
             ];
         });
